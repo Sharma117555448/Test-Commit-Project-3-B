@@ -32,3 +32,73 @@ while True:
             quit()
 
     pygame.display.update()
+    
+    
+    
+    
+    
+    # import pygame
+# from pygame_colliders import ConcaveCollider, ConvexCollider
+# pygame.init()
+
+# white = (255,255,255)
+# black = (0,0,0)
+
+# red = (255,0,0)
+# green = (0,255,0)
+# blue = (0,0,255)
+
+# gameDisplay = pygame.display.set_mode((400,300))
+# gameDisplay.fill(black)
+
+
+# pygame.draw.polygon(gameDisplay, green, ((48,191),(36,175),(159,90),(171,105)))
+# pygame.draw.circle(gameDisplay, green, (90,299-70), 35)
+# pygame.draw.ellipse(gameDisplay, green, [186, 300-175, 120, 60])
+# pygame.draw.polygon(gameDisplay, green, ((200,70),(200,20),(230,20),(230,30),(210,30),(210,60),(230,60),(230,70)))
+
+
+
+
+
+# collider_a_points = [(48,191),(36,175),(159,90),(171,105)]
+# collider_a = ConcaveCollider(collider_a_points)
+
+# collider_b_points = [(48,190.5)]
+# collider_b = ConvexCollider(collider_b_points)
+
+# if collider_a.collide(collider_b):
+#     print("Collision detected")
+
+# print("Got here")
+
+
+
+
+
+
+
+
+# ### Draw Flower {{{
+
+
+
+# pygame.display.flip()
+
+# while True:
+#     for event in pygame.event.get():
+#         if event.type == pygame.QUIT:
+#             pygame.quit()
+#             quit()
+
+#     pygame.display.update()
+
+
+
+# # Create colliders
+
+
+# # Check collision
+# if collider_a.collide(collider_b):
+#     print("Collision detected!")
+
