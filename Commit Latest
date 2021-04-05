@@ -1,1 +1,268 @@
-temp_array_2[0]*2
+from abc import ABCMeta, abstractmethod
+from heapq import heappush, heappop, heapify
+import random, math
+from math import pi
+from math import sqrt,cos,sin,atan2
+import numpy 
+
+initial_coordinate = [50, 50] 
+initial_orientation = 30
+final_coordinate = [220, 350]
+
+def move_max(cc, orientation, rad=1.0, clear=3.5, step_size=1.0):
+    start_x = cc[0]
+    start_y = cc[1]
+
+    move_x = 0
+    move_y = 0
+    
+    start_rad_orientation = (orientation*pi)/180
+    start_rad_orientation_step = 30
+    rad_orientation = start_rad_orientation + (start_rad_orientation_step*2*pi)/180
+
+    dx = math.cos(rad_orientation)*step_size 
+    dy = math.sin(rad_orientation)*step_size 
+    
+    # move_x = move_x + dx
+    # move_y = move_y + dy
+    
+    new_x = start_x + dx
+    new_y = start_y + dy
+
+    new_angle_deg = rad_orientation*180/pi
+
+    new_node = (new_x, new_y, new_angle_deg)
+    curr_node = (cc, orientation)
+
+    if 0.00 <= new_node[0] <= 400.00 and 0.00 <= new_node[1] <= 300.00:
+        return new_node
+    else:
+        return None
+#Test tomororow to see real output of angular changes 
+def move_30(cc, orientation, rad=1.0, clear=3.5, step_size=1.0):
+    start_x = cc[0]
+    start_y = cc[1]
+
+    move_x = 0
+    move_y = 0
+
+    start_rad_orientation = (orientation*pi)/180
+    start_rad_orientation_step = 30
+    rad_orientation = start_rad_orientation + (start_rad_orientation_step*pi)/180
+
+    dx = math.cos(rad_orientation)*step_size
+    dy = math.sin(rad_orientation)*step_size
+    
+    # move_x = move_x + dx
+    # move_y = move_y + dy
+    
+    new_x = start_x + dx
+    new_y = start_y + dy
+
+    new_angle_deg = rad_orientation*180/pi
+
+    new_node = (new_x, new_y, new_angle_deg)
+    curr_node = (cc, orientation)
+
+    if 0.00 <= new_node[0] <= 400.00 and 0.00 <= new_node[1] <= 300.00:
+        return new_node
+    else:
+        return None
+def move_neg30(cc, orientation, rad=1.0, clear=3.5, step_size=1.0):
+    start_x = cc[0]
+    start_y = cc[1]
+
+    move_x = 0
+    move_y = 0
+
+    start_rad_orientation = (orientation*pi)/180
+    start_rad_orientation_step = 30
+    rad_orientation = start_rad_orientation - (start_rad_orientation_step*pi)/180
+
+    dx = math.cos(rad_orientation)*step_size
+    dy = math.sin(rad_orientation)*step_size
+    
+    new_x = start_x + dx
+    new_y = start_y + dy
+
+    new_angle_deg = rad_orientation*180/pi
+
+    new_node = (new_x, new_y, new_angle_deg)
+    curr_node = (cc, orientation)
+
+    if 0.00 <= new_node[0] <= 400.00 and 0.00 <= new_node[1] <= 300.00:
+        return new_node
+    else:
+        return None
+def move_0(cc, orientation, rad=1.0, clear=3.5, step_size=1.0):
+    start_x = cc[0]
+    start_y = cc[1]
+
+    move_x = 0
+    move_y = 0
+
+    rad_orientation = (orientation*pi)/180
+    start_rad_orientation_step = 30
+
+    dx = math.cos(rad_orientation)*step_size
+    dy = math.sin(rad_orientation)*step_size
+
+    new_x = start_x + dx
+    new_y = start_y + dy
+
+    new_angle_deg = rad_orientation*180/pi
+
+    new_node = (new_x, new_y, new_angle_deg)
+    curr_node = (cc, orientation)
+
+    if 0.00 <= new_node[0] <= 400.00 and 0.00 <= new_node[1] <= 300.00:
+        return new_node
+    else:
+        return None      
+def move_min(cc, orientation, rad=1.0, clear=3.5, step_size=1.0):
+    start_x = cc[0]
+    start_y = cc[1]
+
+    move_x = 0
+    move_y = 0
+
+    start_rad_orientation = (orientation*pi)/180
+    start_rad_orientation_step = 30
+    rad_orientation = start_rad_orientation - (start_rad_orientation_step*2*pi)/180
+    
+    dx = math.cos(rad_orientation)*step_size
+    dy = math.sin(rad_orientation)*step_size
+    
+    new_x = start_x + dx
+    new_y = start_y + dy
+
+    new_angle_deg = rad_orientation*180/pi
+
+    new_node = (new_x, new_y, new_angle_deg)
+    curr_node = (cc, orientation)
+
+    if 0.00 <= new_node[0] <= 400.00 and 0.00 <= new_node[1] <= 300.00:
+        return new_node
+    else:
+        return None     
+        
+
+def dist(p1,p2):
+    return sqrt((p1[0]-p2[0])*(p1[0]-p2[0])+(p1[1]-p2[1])*(p1[1]-p2[1]))
+global step 
+
+step = 30
+
+class Alg:
+    __metaclass__ = ABCMeta
+    __slots__ = ()
+
+
+            
+    class SearchNode:
+        __slots__ = ('cnode', 'angle', 'g', 'f',
+                     'closed', 'parent', 'open')
+        def __init__(self, cnode, angle, g=1000000, f=1000000):  #Set to actual hypotenuse value for g 
+            self.cnode = cnode
+            self.angle = angle
+            self.g = g
+            self.f = f
+            self.closed = False
+            self.open = True
+            self.parent = None
+        def __lt__(self, a):
+            return self.f < a.f
+
+
+    class SearchNodeDict(dict):
+        def __missing__(self, cc):
+            n = Alg.SearchNode(cc)
+            self.__setitem__(cc, n)
+            return n
+
+
+
+
+
+    def end_game2 (self,start_coordinate, orien, goal):
+        def round_of_rating(cc):
+            #round(number * 2) / 2
+            cc[0] = round(cc[0] * 2) / 2 
+            cc[1] = round(cc[1] * 2) / 2
+            cc[2] = cc[2]
+            return cc
+            
+        visited = numpy.zeros((600,800,12))
+
+        def isGoal(loc):
+            if dist(loc,final_coordinate) <= 1.5:
+                print("\nReached the Goal!")
+                return True
+            else:
+                return False
+        if isGoal(start_coordinate):
+            return [start_coordinate]
+            
+        initSearch = Alg.SearchNodeDict() #Start "list"
+        
+        startNode = Alg.SearchNode(start_coordinate,orien,g=0,f=dist(start_coordinate,final_coordinate))
+        
+        open_list = []
+        heappush(open_list,startNode)
+        
+        while open_list: 
+            currentCoord = heappop(open_list)
+
+            print(isGoal(currentCoord.cnode))
+            if isGoal(currentCoord.cnode):
+                return True 
+
+            currentCoord.open = True
+            currentCoord.closed = True
+            
+            temp_array = [currentCoord.cnode[0],currentCoord.cnode[1],currentCoord.angle]
+            
+            temp_array_2 = round_of_rating(temp_array)
+            print(temp_array_2[0]*2)
+            visited[int(temp_array_2[0]*2),int(temp_array_2[1]*2),int(temp_array_2[2]/30)]
+            
+            moveone = round_of_rating(list(move_max(currentCoord.cnode,currentCoord.angle)))
+            movetwo = round_of_rating(list(move_30(currentCoord.cnode,currentCoord.angle)))
+            movethree = round_of_rating(list(move_0(currentCoord.cnode,currentCoord.angle)))
+            movefour = round_of_rating(list(move_neg30(currentCoord.cnode,currentCoord.angle)))
+            movefive = round_of_rating(list(move_min(currentCoord.cnode,currentCoord.angle)))
+            
+            
+            
+            
+            
+            moves_list = [move_max(currentCoord.cnode,currentCoord.angle),move_30(currentCoord.cnode,currentCoord.angle),move_0(currentCoord.cnode,currentCoord.angle),move_neg30(currentCoord.cnode,currentCoord.angle),move_min(currentCoord.cnode,currentCoord.angle)]
+            
+            print(moves_list)
+
+            for item in moves_list:
+
+                junk_coord = [item[0],item[1]]
+                angle = item[2]
+                stuff = Alg.SearchNode(junk_coord,angle,g=5,f=dist(currentCoord.cnode,final_coordinate)) #Might need to change to g = 10000
+                if stuff.closed:
+                    continue
+                test_cost = currentCoord.g + dist(currentCoord.cnode, junk_coord)
+                if test_cost >= stuff.g:
+                    continue 
+                stuff.parent = currentCoord
+                stuff.g = test_cost
+                stuff.f = test_cost + dist(stuff.cnode, final_coordinate)
+                if stuff.open:
+                    stuff.open = False
+                    heappush(open_list,stuff)
+                else: 
+                    open_list.remove(stuff)
+                    heappush(open_list,stuff)
+        return None
+            
+            
+blah = Alg()
+blah.end_game2(initial_coordinate, 30, final_coordinate)
+
+
