@@ -3,8 +3,10 @@ from heapq import heappush, heappop, heapify
 import random, math
 from math import pi
 from math import sqrt,cos,sin,atan2
+import numpy 
 
 initial_coordinate = [50, 50] 
+initial_orientation = 30
 final_coordinate = [220, 350]
 
 def move_max(cc, orientation, rad=1.0, clear=3.5, step_size=1.0):
@@ -33,9 +35,10 @@ def move_max(cc, orientation, rad=1.0, clear=3.5, step_size=1.0):
     curr_node = (cc, orientation)
 
     if 0.00 <= new_node[0] <= 400.00 and 0.00 <= new_node[1] <= 300.00:
-        return new_node
+        return new_node, new_angle_deg
     else:
         return None
+
 def move_30(cc, orientation, rad=1.0, clear=3.5, step_size=1.0):
     start_x = cc[0]
     start_y = cc[1]
@@ -157,10 +160,11 @@ class Alg:
 
             
     class SearchNode:
-        __slots__ = ('cnode', 'g', 'f',
+        __slots__ = ('cnode', 'angle', 'g', 'f',
                      'closed', 'parent', 'open')
-        def __init__(self, cnode, g=1000000, f=1000000):  #Set to actual hypotenuse value for g 
+        def __init__(self, cnode, angle, g=1000000, f=1000000):  #Set to actual hypotenuse value for g 
             self.cnode = cnode
+            self.angle = angle
             self.g = g
             self.f = f
             self.closed = False
@@ -178,7 +182,18 @@ class Alg:
 
 
 
-    def end_game2 (self,start_coordinate, goal):
+
+
+    def end_game2 (self,start_coordinate, orien, goal):
+        def round_of_rating(number):
+            return round(number * 2) / 2
+            i = round_of_rating(x)
+            j = round_of_rating(y)
+            k = t/30
+            
+            
+        visited = numpy.zeros((600,800,12))
+
         def isGoal(loc):
             if dist(loc,final_coordinate) <= 1.5:
                 print("\nReached the Goal!")
@@ -190,14 +205,14 @@ class Alg:
             
         initSearch = Alg.SearchNodeDict() #Start "list"
         
-        startNode = initSearch[str(start_coordinate)] = Alg.SearchNode(start_coordinate,g=0,f=dist(start_coordinate,final_coordinate))
-    
+        startNode = Alg.SearchNode(start_coordinate,orien,g=0,f=dist(start_coordinate,final_coordinate))
         
         open_list = []
         heappush(open_list,startNode)
         
-        while len(open_list) > 0: 
+        while open_list: 
             currentCoord = heappop(open_list)
+
             print(isGoal(currentCoord.cnode))
             if isGoal(currentCoord.cnode):
                 return True 
@@ -205,12 +220,20 @@ class Alg:
             currentCoord.open = True
             currentCoord.closed = True
             
-            moves_list = [move_max(currentCoord,30),move_30(currentCoord,30),move_0(currentCoord,30),move_neg30(currentCoord,30),move_min(currentCoord,30)]
+            #Sets visited nodes 
+            i = round_of_rating(currentCoord.cnode[0])
+            j = round_of_rating(currentCoord.cnode[1])
+            k = currentCoord.angle/30
+            visited[int(i),int(j),int(k)]
+            
+            moves_list = [move_max(currentCoord.cnode,currentCoord.angle),move_30(currentCoord.cnode,currentCoord.angle),move_0(currentCoord.cnode,currentCoord.angle),move_neg30(currentCoord.cnode,currentCoord.angle),move_min(currentCoord.cnode,currentCoord.angle)]
+            
+            print(moves_list)
 
             
             for item in moves_list:
                 junk_coord = [item[0],item[1]]
-                stuff = Alg.SearchNode(junk_coord,g=5,f=dist(currentCoord.cnode,final_coordinate)) #Might need to change to g = 10000
+                stuff = Alg.SearchNode(junk_coord,angle=currentCoord.angle,g=5,f=dist(currentCoord.cnode,final_coordinate)) #Might need to change to g = 10000
 
                 if stuff.closed:
                     continue
@@ -230,6 +253,6 @@ class Alg:
             
             
 blah = Alg()
-blah.end_game2(initial_coordinate,final_coordinate)
+blah.end_game2(initial_coordinate, 30, final_coordinate)
 
 
