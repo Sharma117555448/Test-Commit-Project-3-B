@@ -35,7 +35,7 @@ def move_max(cc, orientation, rad=1.0, clear=3.5, step_size=1.0):
     curr_node = (cc, orientation)
 
     if 0.00 <= new_node[0] <= 400.00 and 0.00 <= new_node[1] <= 300.00:
-        return new_node, new_angle_deg
+        return new_node
     else:
         return None
 
@@ -219,8 +219,6 @@ class Alg:
                 
             currentCoord.open = True
             currentCoord.closed = True
-            
-            #Sets visited nodes 
             i = round_of_rating(currentCoord.cnode[0])
             j = round_of_rating(currentCoord.cnode[1])
             k = currentCoord.angle/30
@@ -233,11 +231,11 @@ class Alg:
             
             for item in moves_list:
                 junk_coord = [item[0],item[1]]
-                stuff = Alg.SearchNode(junk_coord,angle=currentCoord.angle,g=5,f=dist(currentCoord.cnode,final_coordinate)) #Might need to change to g = 10000
-
+                angle = currentCoord.angle
+                stuff = Alg.SearchNode(junk_coord,angle,g=5,f=dist(currentCoord.cnode,final_coordinate)) #Might need to change to g = 10000
                 if stuff.closed:
                     continue
-                test_cost = currentCoord.g + dist(currentCoord.cnode, [item[0],item[1]])
+                test_cost = currentCoord.g + dist(currentCoord.cnode, junk_coord)
                 if test_cost >= stuff.g:
                     continue 
                 stuff.parent = currentCoord
