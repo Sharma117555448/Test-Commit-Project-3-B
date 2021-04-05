@@ -185,11 +185,12 @@ class Alg:
 
 
     def end_game2 (self,start_coordinate, orien, goal):
+        
         def round_of_rating(cc):
             #round(number * 2) / 2
             cc[0] = round(cc[0] * 2) / 2 
             cc[1] = round(cc[1] * 2) / 2
-            cc[2] = cc[2]
+            cc[2] = round(cc[2] *2)/2
             return cc
             
         visited = numpy.zeros((600,800,12))
@@ -223,14 +224,21 @@ class Alg:
             temp_array = [currentCoord.cnode[0],currentCoord.cnode[1],currentCoord.angle]
             
             temp_array_2 = round_of_rating(temp_array)
-            print(temp_array_2[0]*2)
             visited[int(temp_array_2[0]*2),int(temp_array_2[1]*2),int(temp_array_2[2]/30)]
-            
+            move_list = []
             moveone = round_of_rating(list(move_max(currentCoord.cnode,currentCoord.angle)))
+            
             movetwo = round_of_rating(list(move_30(currentCoord.cnode,currentCoord.angle)))
             movethree = round_of_rating(list(move_0(currentCoord.cnode,currentCoord.angle)))
             movefour = round_of_rating(list(move_neg30(currentCoord.cnode,currentCoord.angle)))
             movefive = round_of_rating(list(move_min(currentCoord.cnode,currentCoord.angle)))
+            
+            if visited[int(moveone[0]*2),int(moveone[1]*2),int(moveone[2]/30)] == 0:
+                move_list.append(moveone)
+            if visited[int(movetwo[0]*2),int(movetwo[1]*2),int(movetwo[2]/30)] == 0:
+                move_list.append(movetwo)
+            print(move_list)
+
             
             
             
