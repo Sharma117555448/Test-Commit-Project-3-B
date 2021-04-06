@@ -276,4 +276,4 @@ class Alg:
 blah = Alg()
 blah.end_game2(initial_coordinate, 30, final_coordinate)
 
-
+#
