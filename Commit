@@ -31,25 +31,25 @@ from math import pi
 from math import sqrt,cos,sin,atan2
 import numpy 
 
-# rad= int(input("Radius:"))
-# clear = int(input("Clearance:"))
-# initial_coordinate = input("Enter initial x and y coordinates:")
-# initial_coordinate = initial_coordinate.split()
-# for i in range(len(initial_coordinate)):
-#     initial_coordinate[i] = int(initial_coordinate[i])
-# final_coordinate = input("Enter final x and y coordinates:")
-# final_coordinate = final_coordinate.split()
-# for i in range(len(final_coordinate)):
-#     final_coordinate[i] = int(final_coordinate[i])
-# initial_orientation = int(input("Initial Orientation:"))
-# step = int(input("Step size:"))
+rad= int(input("Radius:"))
+clear = int(input("Clearance:"))
+initial_coordinate = input("Enter initial x and y coordinates:")
+initial_coordinate = initial_coordinate.split()
+for i in range(len(initial_coordinate)):
+    initial_coordinate[i] = int(initial_coordinate[i])
+final_coordinate = input("Enter final x and y coordinates:")
+final_coordinate = final_coordinate.split()
+for i in range(len(final_coordinate)):
+    final_coordinate[i] = int(final_coordinate[i])
+initial_orientation = int(input("Initial Orientation:"))
+step = int(input("Step size:"))
 
-rad = 4
-clear = 2
-step = 5
-initial_orientation = 30
-initial_coordinate = [9, 9] 
-final_coordinate = [80, 80]
+# rad = 4
+# clear = 2
+# step = 5
+# initial_orientation = 10
+# initial_coordinate = [9, 9] 
+# final_coordinate = [246, 70]
 
 
 if initial_coordinate[0] == final_coordinate[0]+rad/2 + clear and initial_coordinate[1] == final_coordinate[1]+rad/2 + clear:
@@ -81,7 +81,7 @@ collider_c_points = [(200,70),(200,20),(230,20),(230,30),(210,30),(210,60),(230,
 
 
 collider_a = ConcaveCollider(collider_a_points)
-collider_c = ConcaveCollider(collider_a_points)
+collider_c = ConcaveCollider(collider_c_points)
 
 
 def collides_pol(a,b):
@@ -93,6 +93,9 @@ def collides_pol(a,b):
         print("Collision detected")
         return True
     return False
+
+
+
 
 def collides_circle(a,b):
     x2, y2 = 90, 299-70
@@ -124,9 +127,12 @@ def reset():
     init_obstacles(GAME_LEVEL)
     count = 0
 
-
-
-
+if collides_pol(initial_coordinate[0],initial_coordinate[1]) or collides_circle(initial_coordinate[0],initial_coordinate[1]) or collides_ell(initial_coordinate[0],initial_coordinate[1]):
+    print("Start is in obstacle")
+    quit()
+if collides_pol(final_coordinate[0],final_coordinate[1]) or collides_circle(final_coordinate[0],final_coordinate[1]) or collides_ell(final_coordinate[0],final_coordinate[1]):
+    print("Goal is in obstacle")
+    quit()
 
 
 def move_max(cc, orientation, rad=1.0, clear=3.5, step_size=1.0):
@@ -153,12 +159,12 @@ def move_max(cc, orientation, rad=1.0, clear=3.5, step_size=1.0):
     if new_angle_deg > 360:
         new_angle_deg = abs(new_angle_deg - 360)
     new_node = (new_x, new_y, new_angle_deg)
-    curr_node = (cc, orientation)
+    curr_node = (cc[0],cc[1], orientation)
 
     if 0.00 <= new_node[0] <= 400.00 and 0.00 <= new_node[1] <= 300.00 and collides_pol(new_node[0],new_node[1]) == False and collides_circle(new_node[0],new_node[1]) == False and collides_ell(new_node[0],new_node[1]) == False:
         return new_node
     else:
-        return None
+        return curr_node
 def move_30(cc, orientation, rad=1.0, clear=3.5, step_size=1.0):
     start_x = cc[0]
     start_y = cc[1]
@@ -183,12 +189,12 @@ def move_30(cc, orientation, rad=1.0, clear=3.5, step_size=1.0):
     if new_angle_deg > 360:
         new_angle_deg = abs(new_angle_deg - 360)
     new_node = (new_x, new_y, new_angle_deg)
-    curr_node = (cc, orientation)
+    curr_node = (cc[0],cc[1], orientation)
 
     if 0.00 <= new_node[0] <= 400.00 and 0.00 <= new_node[1] <= 300.00 and collides_pol(new_node[0],new_node[1]) == False and collides_circle(new_node[0],new_node[1]) == False and collides_ell(new_node[0],new_node[1]) == False:
         return new_node
     else:
-        return None
+        return curr_node
 def move_neg30(cc, orientation, rad=1.0, clear=3.5, step_size=1.0):
     start_x = cc[0]
     start_y = cc[1]
@@ -210,12 +216,12 @@ def move_neg30(cc, orientation, rad=1.0, clear=3.5, step_size=1.0):
     if new_angle_deg > 360:
         new_angle_deg = abs(new_angle_deg - 360)
     new_node = (new_x, new_y, new_angle_deg)
-    curr_node = (cc, orientation)
+    curr_node = (cc[0],cc[1], orientation)
 
     if 0.00 <= new_node[0] <= 400.00 and 0.00 <= new_node[1] <= 300.00 and collides_pol(new_node[0],new_node[1]) == False and collides_circle(new_node[0],new_node[1]) == False and collides_ell(new_node[0],new_node[1]) == False:
         return new_node
     else:
-        return None
+        return curr_node
 def move_0(cc, orientation, rad=1.0, clear=3.5, step_size=1.0):
     start_x = cc[0]
     start_y = cc[1]
@@ -236,12 +242,12 @@ def move_0(cc, orientation, rad=1.0, clear=3.5, step_size=1.0):
     if new_angle_deg > 360:
         new_angle_deg = abs(new_angle_deg - 360)
     new_node = (new_x, new_y, new_angle_deg)
-    curr_node = (cc, orientation)
+    curr_node = (cc[0],cc[1], orientation)
 
     if 0.00 <= new_node[0] <= 400.00 and 0.00 <= new_node[1] <= 300.00 and collides_pol(new_node[0],new_node[1]) == False and collides_circle(new_node[0],new_node[1]) == False and collides_ell(new_node[0],new_node[1]) == False:
         return new_node
     else:
-        return None      
+        return curr_node      
 def move_min(cc, orientation, rad=1.0, clear=3.5, step_size=1.0):
     start_x = cc[0]
     start_y = cc[1]
@@ -263,12 +269,12 @@ def move_min(cc, orientation, rad=1.0, clear=3.5, step_size=1.0):
     if new_angle_deg > 360:
         new_angle_deg = abs(new_angle_deg - 360)
     new_node = (new_x, new_y, new_angle_deg)
-    curr_node = (cc, orientation)
+    curr_node = (cc[0],cc[1], orientation)
 
     if 0.00 <= new_node[0] <= 400.00 and 0.00 <= new_node[1] <= 300.00 and collides_pol(new_node[0],new_node[1]) == False and collides_circle(new_node[0],new_node[1]) == False and collides_ell(new_node[0],new_node[1]) == False:
         return new_node
     else:
-        return None     
+        return curr_node     
 
 #To Do: Check angle chosen when new one is given (assigned values in SearchNode)
 # Assign visited 
@@ -365,7 +371,6 @@ class Alg:
             if move_min(currentCoord.cnode,currentCoord.angle,radius,clearance,step_size) != None:
                 movefive = round_of_rating(list(move_min(currentCoord.cnode,currentCoord.angle,radius,clearance,step_size)))
             
-
             if visited[int(moveone[0]*2),int(moveone[1]*2),int(moveone[2]/30)] == 0: 
                 moves_list.append(move_max(currentCoord.cnode,currentCoord.angle,radius,clearance,step_size))
             if visited[int(movetwo[0]*2),int(movetwo[1]*2),int(movetwo[2]/30)] == 0:
@@ -382,6 +387,11 @@ class Alg:
                 junk_coord = [item[0],item[1]]
                 stuff = Alg.SearchNode(junk_coord,item[2],g=100000,f=dist(currentCoord.cnode,final_coordinate)) #Might need to change to g = 10000
 
+                junk_list = stuff.cnode
+                junk_list = junk_list + [stuff.angle]
+
+                if visited[int(round_of_rating(list(junk_list))[0]*2),int(round_of_rating(list(junk_list))[1]*2),int(round_of_rating(list(junk_list))[2]/30)] == 1:
+                    continue 
                 if stuff.closed:
                     continue
                 test_cost = currentCoord.g + dist(currentCoord.cnode, junk_coord)
