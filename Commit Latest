@@ -225,7 +225,7 @@ class Alg:
             
             temp_array_2 = round_of_rating(temp_array)
             visited[int(temp_array_2[0]*2),int(temp_array_2[1]*2),int(temp_array_2[2]/30)]
-            move_list = []
+            moves_list = []
             moveone = round_of_rating(list(move_max(currentCoord.cnode,currentCoord.angle)))
             
             movetwo = round_of_rating(list(move_30(currentCoord.cnode,currentCoord.angle)))
@@ -234,19 +234,15 @@ class Alg:
             movefive = round_of_rating(list(move_min(currentCoord.cnode,currentCoord.angle)))
             
             if visited[int(moveone[0]*2),int(moveone[1]*2),int(moveone[2]/30)] == 0:
-                move_list.append(moveone)
+                moves_list.append(moveone)
             if visited[int(movetwo[0]*2),int(movetwo[1]*2),int(movetwo[2]/30)] == 0:
-                move_list.append(movetwo)
-            print(move_list)
-
-            
-            
-            
-            
-            
-            moves_list = [move_max(currentCoord.cnode,currentCoord.angle),move_30(currentCoord.cnode,currentCoord.angle),move_0(currentCoord.cnode,currentCoord.angle),move_neg30(currentCoord.cnode,currentCoord.angle),move_min(currentCoord.cnode,currentCoord.angle)]
-            
-            print(moves_list)
+                moves_list.append(movetwo)
+            if visited[int(movethree[0]*2),int(movethree[1]*2),int(movethree[2]/30)] == 0:
+                moves_list.append(movethree)
+            if visited[int(movefour[0]*2),int(movefour[1]*2),int(movefour[2]/30)] == 0:
+                moves_list.append(movefour)
+            if visited[int(movefive[0]*2),int(movefive[1]*2),int(movefive[2]/30)] == 0:
+                moves_list.append(movefive)
 
             for item in moves_list:
 
@@ -264,6 +260,7 @@ class Alg:
                 if stuff.open:
                     stuff.open = False
                     heappush(open_list,stuff)
+                    
                 else: 
                     open_list.remove(stuff)
                     heappush(open_list,stuff)
