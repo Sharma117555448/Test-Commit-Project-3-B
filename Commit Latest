@@ -204,7 +204,9 @@ class Alg:
         def isGoal(loc):
             if dist(loc,final_coordinate) <= 1.5:
                 print("\nReached the Goal!")
-                return True
+                return loc
+                
+
             else:
                 return None
         if isGoal(start_coordinate):
@@ -223,7 +225,7 @@ class Alg:
 
             print(isGoal(currentCoord.cnode))
             if isGoal(currentCoord.cnode):
-                return True 
+                return True
 
             currentCoord.open = True
             currentCoord.closed = True
@@ -266,7 +268,7 @@ class Alg:
                 else: 
                     open_list.remove(stuff)
                     heappush(open_list,stuff)
-                print(stuff.cnode)
+                # print(stuff.cnode)
 
         return None
             
